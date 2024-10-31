@@ -39,3 +39,8 @@ hooks:
         rm -rf logs
     deploy: |
         python manage.py migrate
+
+databases:
+    db:
+        type: postgresql:12  # Ensure this matches your needs
+        disk: 1Gi            # Size of the database disk
