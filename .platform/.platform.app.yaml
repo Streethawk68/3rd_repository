@@ -5,6 +5,7 @@ type: "python:3.10"
 web:
     upstream:
         socket_family: unix
+        service: app:http
     commands:
         start: "gunicorn -w 4 -b unix:$SOCKET ll_project.wsgi:application"
     locations:
