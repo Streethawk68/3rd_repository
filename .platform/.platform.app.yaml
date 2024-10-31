@@ -1,31 +1,41 @@
-# The name of this app. Must be unique within a project.
-name: app
+name: "ll_project"
+type: "python:3.10"
 
-# The runtime the application uses. The 'type' key defines the base container
-# image that will be used to run the application. There is a separate base
-# container image for each primary language for the application,
-# in multiple versions. Check the Python documentation
-# (https://docs.platform.sh/languages/python.html#supported-versions)
-# to find the supported versions for the 'python' type.
-type: 'python:3.12'
+relationships:
+    database: "db:postgresql"
 
-# The following block defines a single writable directory, 'web/uploads'
-# The 'source' specifies where the writable mount is. The 'local' source
-# indicates that the mount point will point to a local directory on the
-# application container. The 'source_path' specifies the subdirectory
-# from within the source that the mount should point at. 
-mounts:
-  'web/uploads':
-    source: local
-    source_path: uploads
+# The configuration of the app when it's exposed to the web.
+web:
+    upstream:
+        socket_family: unix
+    commands:
+        start: "gunicorn -w 4 -b unix:$SOCKET ll_project.wsgi:application"
+    locations:
+        "/":
+            passthru: true
+        "/static":
+            root: "static"
+            expires: 1h
+            allow: true
 
 # The size of the persistent disk of the application (in MB).
-disk: 2048
+disk: 512
 
-# The relationships of the application with services or other applications.
-#
-# The left-hand side is the name of the relationship as it will be exposed
-# to the application in the PLATFORM_RELATIONSHIPS variable. The right-hand
-# side is in the form '<service name>:<endpoint name>'.
-relationships:
-    null: 'network-storage:something'
+# Set a local read/write mount for logs.
+mounts:
+    "logs":
+        source: local
+        source_path: logs
+
+# The hooks executed at various points in the lifecycle of the application.
+hooks:
+    build: |
+        pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements_remote.txt
+        
+        mkdir logs
+        python manage.py collectstatic
+        rm -rf logs
+    deploy: |
+        python manage.py migrate
