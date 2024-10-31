@@ -1,9 +1,6 @@
 name: "ll_project"
 type: "python:3.10"
 
-relationships:
-    database: "db:postgresql"  # This must reference an existing service
-
 # The configuration of the app when it's exposed to the web.
 web:
     upstream:
