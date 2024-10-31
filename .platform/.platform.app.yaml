@@ -2,7 +2,7 @@ name: "ll_project"
 type: "python:3.10"
 
 relationships:
-    database: "db:postgresql"
+    database: "db:postgresql"  # This must reference an existing service
 
 # The configuration of the app when it's exposed to the web.
 web:
@@ -39,8 +39,3 @@ hooks:
         rm -rf logs
     deploy: |
         python manage.py migrate
-
-databases:
-    db:
-        type: postgresql:12  # Ensure this matches your needs
-        disk: 1Gi            # Size of the database disk
