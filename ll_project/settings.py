@@ -136,7 +136,7 @@ LOGIN_URL = 'accounts:login'
 # added on 27.10.2024 kgalt
 
 # Platform.sh settings.
-from platformshconfig import Config
+# from platformshconfig import Config
 
 config = Config()
 if config.is_valid_platform():
