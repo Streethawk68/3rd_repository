@@ -3,7 +3,6 @@ type: "python:3.10"
 
 relationships:
     database:
-        db:
         type: postgresql:12
         disk: 1Gi
 
