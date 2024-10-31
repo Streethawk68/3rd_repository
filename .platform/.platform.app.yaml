@@ -1,8 +1,8 @@
 name: "ll_project"
 type: "python:3.10"
 
-relationships:
-    database: "db:mysql"
+# relationships:
+#     database: "db:mysql"
 
 # The configuration of the app when it's exposed to the web.
 web:
