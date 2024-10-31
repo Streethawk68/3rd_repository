@@ -1,24 +1,41 @@
-# .platform.app.yaml
-name: ll_project
-type: python:3.12
+name: "ll_project"
+type: "python:3.10"
 
-# Application settings
-web:
-    commands:
-        start: gunicorn myapp:app --bind 0.0.0.0:8080
-
-# Services configuration
-services:
-    database:  # This is the name of the service
-        type: mariadb:11.4  # Specify the type of database
-        disk: 256            # Disk space for the database
-        size: S              # Size of the database service (S, M, L)
-
-# Relationships with services
 relationships:
-    database: "database"  # Relationship to the database service
+    database: "db:postgresql"
 
-# Hooks for build and deploy processes
+# The configuration of the app when it's exposed to the web.
+web:
+    upstream:
+        socket_family: unix
+    commands:
+        start: "gunicorn -w 4 -b unix:$SOCKET ll_project.wsgi:application"
+    locations:
+        "/":
+            passthru: true
+        "/static":
+            root: "static"
+            expires: 1h
+            allow: true
+
+# The size of the persistent disk of the application (in MB).
+disk: 512
+
+# Set a local read/write mount for logs.
+mounts:
+    "logs":
+        source: local
+        source_path: logs
+
+# The hooks executed at various points in the lifecycle of the application.
 hooks:
-    build:
-        - pip install -r requirements.txt  # Install dependencies
+    build: |
+        pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements_remote.txt
+        
+        mkdir logs
+        python manage.py collectstatic
+        rm -rf logs
+    deploy: |
+        python manage.py migrate
