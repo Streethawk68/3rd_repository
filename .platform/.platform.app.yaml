@@ -1,10 +1,11 @@
 name: "ll_project"
 type: "python:3.10"
 
-databases:
-  db:
-    type: postgresql:12
-    disk: 1Gi
+relationships:
+    database:
+        db:
+        type: postgresql:12
+        disk: 1Gi
 
 # The configuration of the app when it's exposed to the web.
 web:
