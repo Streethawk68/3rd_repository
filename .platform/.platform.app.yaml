@@ -1,17 +1,8 @@
 name: "ll_project"
 type: "python:3.10"
 
-# Example 1: Using a PostgreSQL database
-services:
-  app:
-    relationships:
-      database: postgresdb
-
-databases:
-  postgresdb:
-    type: postgres:12
-    disk: 512Mi
-
+relationships:
+    database: "db:postgresql"
 
 # The configuration of the app when it's exposed to the web.
 web:
