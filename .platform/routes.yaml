@@ -6,8 +6,5 @@
     enabled: false  # Cache disabled for HTTPS
 
 "http://www.{default}/":
-  type: upstream
-  upstream: "ll_project:http"
-  cache:
-    enabled: true  # Cache enabled for HTTP
-  # This route serves HTTP requests without redirecting to HTTPS
+  type: redirect
+  to: "https://{default}/"  
