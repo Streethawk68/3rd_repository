@@ -3,10 +3,6 @@
 *~
 __pycache__
 
-# Env
-.env
-myvenv/
-venv/
 
 # Datenbank
 db.sqlite3
