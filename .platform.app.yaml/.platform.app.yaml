@@ -33,6 +33,8 @@ hooks:
         pip install --upgrade pip
         pip install -r requirements.txt
         pip install -r requirements_remote.txt
+        echo "Current directory contents:"
+        ls -la
         
         mkdir logs
         python manage.py collectstatic
