@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     "learning_logs",
     "accounts",
     "ll_project",
+    "main",
+    "kgalt_branch",
     # Third party apps.
     "django_bootstrap5",
     # Default django apps.
