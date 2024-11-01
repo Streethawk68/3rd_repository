@@ -141,7 +141,7 @@ LOGIN_URL = 'accounts:login'
 
 config = Config()
 if config.is_valid_platform():
-    ALLOWED_HOSTS.append('http://www.main-bvxea6i-sn54dc7ygzqsm.us-3.platformsh.site')
+    ALLOWED_HOSTS.append('https://www.main-bvxea6i-sn54dc7ygzqsm.us-3.platformsh.site')
     DEBUG = True
 
     if config.appDir:
