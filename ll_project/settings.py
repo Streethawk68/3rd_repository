@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-d#lbvjvewgn=fh+_$po&$l7cx*jsz)+3@v)&c24u9j(@c-j8*g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = "https://www.kgalt-branch-5d5txra-sn54dc7ygzqsm.us-3.platformsh.site"
 
 
 # Application definition
@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     # My apps.
     "learning_logs",
     "accounts",
+    "ll_project",
     # Third party apps.
     "django_bootstrap5",
     # Default django apps.
