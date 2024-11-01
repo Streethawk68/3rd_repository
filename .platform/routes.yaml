@@ -3,7 +3,7 @@
   type: upstream
   upstream: "ll_project:http"
   cache:
-    enabled: true  # Cache disabled for HTTPS
+    enabled: false  # Cache disabled for HTTPS
 
 "http://www.{default}/":
   type: redirect
