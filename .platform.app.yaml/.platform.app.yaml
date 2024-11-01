@@ -1,41 +1,31 @@
-name: "ll_project"
-type: "python:3.12"
+# The name of this app. Must be unique within a project.
+name: app
 
-relationships:
-    database: "postgresql:postgresql"
+# The runtime the application uses. The 'type' key defines the base container
+# image that will be used to run the application. There is a separate base
+# container image for each primary language for the application,
+# in multiple versions. Check the PHP documentation
+# (https://docs.platform.sh/languages/php.html#supported-versions)
+# to find the supported versions for the 'php' type.
+type: 'php:8.3'
 
-# The configuration of the app when it's exposed to the web.
-web:
-    upstream:
-        socket_family: unix
-    commands:
-        start: "gunicorn -w 4 -b unix:$SOCKET ll_project.wsgi:application"
-    locations:
-        "/":
-            passthru: true
-        "/static":
-            root: "static"
-            expires: 1h
-            allow: true
+# The following block defines a single writable directory, 'web/uploads'
+# The 'source' specifies where the writable mount is. The 'local' source
+# indicates that the mount point will point to a local directory on the
+# application container. The 'source_path' specifies the subdirectory
+# from within the source that the mount should point at. 
+mounts:
+  'web/uploads':
+    source: local
+    source_path: uploads
 
 # The size of the persistent disk of the application (in MB).
-disk: 512
+disk: 2048
 
-# Set a local read/write mount for logs.
-mounts:
-    "logs":
-        source: local
-        source_path: logs
-
-# The hooks executed at various points in the lifecycle of the application.
-hooks:
-    build: |
-        pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install -r requirements_remote.txt
-        
-        mkdir logs
-        python manage.py collectstatic
-        rm -rf logs
-    deploy: |
-        python manage.py migrate
+# The relationships of the application with services or other applications.
+#
+# The left-hand side is the name of the relationship as it will be exposed
+# to the application in the PLATFORM_RELATIONSHIPS variable. The right-hand
+# side is in the form '<service name>:<endpoint name>'.
+relationships:
+    postgresql: 'postgresql:postgresql'
