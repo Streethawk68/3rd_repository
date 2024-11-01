@@ -1,11 +1,13 @@
+# .platform/routes.yaml
 "https://www.{default}/":
   type: upstream
   upstream: "ll_project:http"
   cache:
-    enabled: false
+    enabled: false  # Cache disabled for HTTPS
 
 "http://www.{default}/":
   type: upstream
   upstream: "ll_project:http"
-  primary: true
-
+  cache:
+    enabled: true  # Cache enabled for HTTP
+  # This route serves HTTP requests without redirecting to HTTPS
