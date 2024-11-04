@@ -7,8 +7,8 @@ relationships:
 # The configuration of the app when it's exposed to the web.
 web:
     upstream:
-        socket_family: tcp
-        protocol: http
+        socket_family: unix
+        # protocol: http
         
         
     commands:
@@ -34,6 +34,8 @@ mounts:
 hooks:
     build: |
         pip install --upgrade pip
+        python -m pip install --upgrade setuptools
+
         pip install -r requirements.txt
         pip install -r requirements_remote.txt
         
